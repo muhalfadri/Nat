@@ -1,0 +1,20 @@
+-- autogrow.lua by muhalfadri
+-- Script ini mencoba mempercepat pertumbuhan tanaman dengan menyimulasikan spam fertilizer
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local PlantsFolder = workspace:FindFirstChild("Plants") or workspace:FindFirstChild("YourPlantFolder")
+local fertilizeRemote = ReplicatedStorage:FindFirstChild("Remotes")
+    and ReplicatedStorage.Remotes:FindFirstChild("Farm")
+    and ReplicatedStorage.Remotes.Farm:FindFirstChild("Fertilize")
+
+if fertilizeRemote and PlantsFolder then
+    print("✅ Mulai auto-grow tanaman...")
+    while true do
+        for _, plant in pairs(PlantsFolder:GetChildren()) do
+            fertilizeRemote:FireServer(plant)
+        end
+        task.wait(0.2) -- Spam fertilizer setiap 0.2 detik
+    end
+else
+    warn("❌ Tidak menemukan remote Fertilize atau folder tanaman")
+end
