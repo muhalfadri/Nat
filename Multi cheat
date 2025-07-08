@@ -1,0 +1,39 @@
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+gui.Name = "MultiGUI"
+
+local function createButton(text, posY, callback)
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(0, 120, 0, 35)
+    btn.Position = UDim2.new(0, 10, 0, posY)
+    btn.Text = text
+    btn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+    btn.TextColor3 = Color3.new(1, 1, 1)
+    btn.Parent = gui
+    btn.MouseButton1Click:Connect(callback)
+end
+
+-- Fly
+createButton("Fly", 20, function()
+    local hrp = player.Character:WaitForChild("HumanoidRootPart")
+    local bv = Instance.new("BodyVelocity")
+    bv.Velocity = Vector3.new(0, 60, 0)
+    bv.MaxForce = Vector3.new(0, math.huge, 0)
+    bv.Parent = hrp
+    task.delay(8, function() bv:Destroy() end)
+end)
+
+-- Speed
+createButton("Speed", 65, function()
+    player.Character:WaitForChild("Humanoid").WalkSpeed = 100
+end)
+
+-- Auto Buy Gear
+createButton("Buy Gear", 110, function()
+    local remote = game:GetService("ReplicatedStorage"):FindFirstChild("Buy")
+    if remote then
+        remote:FireServer("Bug Net")
+    else
+        warn("Remote 'Buy' tidak ditemukan")
+    end
+end)
