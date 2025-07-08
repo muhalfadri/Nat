@@ -1,0 +1,38 @@
+-- Multi Cheat GUI (Fly, Speed, Auto Buy Gear) -- by muhalfadri
+
+-- GUI Setup local ScreenGui = Instance.new("ScreenGui") local Frame = Instance.new("Frame")
+
+ScreenGui.Name = "MultiCheatGUI" ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+Frame.Name = "MainFrame" Frame.Parent = ScreenGui Frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35) Frame.Position = UDim2.new(0.05, 0, 0.2, 0) Frame.Size = UDim2.new(0, 200, 0, 200) Frame.Active = true Frame.Draggable = true
+
+-- Button Maker local function createButton(text, order, callback) local button = Instance.new("TextButton") button.Parent = Frame button.BackgroundColor3 = Color3.fromRGB(75, 75, 255) button.Position = UDim2.new(0.1, 0, 0.05 + (order * 0.3), 0) button.Size = UDim2.new(0.8, 0, 0.25, 0) button.Font = Enum.Font.SourceSansBold button.Text = text button.TextColor3 = Color3.new(1, 1, 1) button.TextSize = 18 button.MouseButton1Click:Connect(callback) end
+
+-- Fly Feature local function activateFly() local player = game.Players.LocalPlayer local char = player.Character or player.CharacterAdded:Wait() local hrp = char:WaitForChild("HumanoidRootPart")
+
+local bv = Instance.new("BodyVelocity")
+bv.Velocity = Vector3.new(0, 50, 0)
+bv.MaxForce = Vector3.new(0, math.huge, 0)
+bv.Parent = hrp
+
+task.delay(10, function()
+    bv:Destroy()
+    print("🕊️ Fly selesai")
+end)
+
+end
+
+-- Speed Feature local function activateSpeed() local player = game.Players.LocalPlayer local char = player.Character or player.CharacterAdded:Wait() char:WaitForChild("Humanoid").WalkSpeed = 100 print("⚡ Speed ditingkatkan") end
+
+-- Auto Buy Gear local function autoBuyGear() local success = pcall(function() local rs = game:GetService("ReplicatedStorage") local buyRemote = rs:FindFirstChild("Buy") or rs:WaitForChild("Remotes"):FindFirstChild("Buy") if buyRemote then buyRemote:FireServer("Bug Net") else warn("❌ Remote Buy tidak ditemukan!") end end)
+
+if success then
+    print("✅ Auto Buy Gear dijalankan!")
+end
+
+end
+
+-- Buat tombol-tombol createButton("🕊️ Fly", 0, activateFly) createButton("⚡ Speed", 1, activateSpeed) createButton("🛒 Auto Buy Gear", 2, autoBuyGear)
+
+print("📦 Multi Cheat GUI aktif!")
+
